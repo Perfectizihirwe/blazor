@@ -1,0 +1,10 @@
+﻿<Router AppAssembly="@typeof(App).Assembly">
+    <Found Context="routeData">
+        <RouteView RouteData="@routeData" DefaultLayout="@typeof(MainLayout)" />
+        <FocusOnNavigate RouteData="@routeData" Selector="h1" />
+    </Found>
+    <NotFound>
+        <PageTitle>Not found</PageTitle>
+        <img src="https://drudesk.com/sites/default/files/2018-02/404-error-page-not-found.jpg" class="vw-100 vh-100"/>
+    </NotFound>
+</Router>

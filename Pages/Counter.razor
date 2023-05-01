@@ -1,0 +1,27 @@
+﻿@page "/counter"
+@page "/counter/{CounterLimit:int}"
+
+<PageTitle>Counter</PageTitle>
+
+<h1>Counter</h1>
+
+<p>Counter limit is @CounterLimit</p>
+
+<p role="status">Current count: @currentCount</p>
+
+<button class="btn btn-primary" @onclick="IncrementCount">Click me</button>
+
+@code {
+    [Parameter]
+    public int CounterLimit { get; set; } = 20;
+    private int currentCount = 0;
+
+    private void IncrementCount()
+    {
+        if (currentCount < CounterLimit)
+        {
+            currentCount++;
+        }
+    }
+
+}

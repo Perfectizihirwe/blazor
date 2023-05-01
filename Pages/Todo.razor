@@ -1,0 +1,52 @@
+@page "/todo"
+
+
+<h1>
+    Todo
+</h1>
+
+<p>This is a todo app</p>
+
+<ul>
+    @foreach(var item in Todos )
+    {
+        <li>
+            <h4>
+                @item.Title : 
+            </h4>
+            <p>
+                @item.Description
+            </p>
+        </li>
+    }
+</ul>
+
+<input @bind="NewToDo" @bind:event="oninput" type="text" placeholder="Task title" />
+
+<input @bind="Description" @bind:event="oninput" type="text" placeholder="Task description" />
+
+<button @onclick="Save" >Submit</button>
+
+@if (!string.IsNullOrEmpty(NewToDo) && string.IsNullOrEmpty(Description))
+{
+    <p>Remember to add a description</p>
+}
+
+@code{
+    private List<Data.TodoItem> Todos = new();
+    private string NewToDo { get; set; } = string.Empty;
+    private string Description { get; set; } = string.Empty;
+
+    private void Save()
+    {
+        if (string.IsNullOrEmpty(NewToDo)) return;
+
+        Todos.Add(new Data.TodoItem
+            {
+                Title = NewToDo,
+                Description = Description
+            });
+            NewToDo = string.Empty;
+            Description = string.Empty;
+    }
+}
