@@ -1,4 +1,6 @@
 @page "/todo"
+@inject TodoState TodoState
+@using BlazorApp.Data
 
 
 <h1>
@@ -8,7 +10,7 @@
 <p>This is a todo app</p>
 
 <ul>
-    @foreach(var item in Todos )
+    @foreach (var item in TodoState.Todos )
     {
         <li>
             <h4>
@@ -27,26 +29,52 @@
 
 <button @onclick="Save" >Submit</button>
 
-@if (!string.IsNullOrEmpty(NewToDo) && string.IsNullOrEmpty(Description))
+@*<EditForm Model="@NewItem" OnValidSubmit="@Save">
+    <InputText id="name" @bind-Value="NewItem.Title" />
+    <ValidationMessage For="@(()=>NewItem.Title)" />
+
+    <InputText id="description" @bind-Value="NewItem.Description" />
+    <ValidationMessage For="@(()=>NewItem.Description)" />
+
+    <button type="submit">Submit</button>
+
+    <DataAnnotationsValidator />
+
+
+
+</EditForm>
+*@
+
+@*@if (!string.IsNullOrEmpty(NewItem.Title) && string.IsNullOrEmpty(NewItem.Description))
 {
     <p>Remember to add a description</p>
-}
+}*@
 
 @code{
-    private List<Data.TodoItem> Todos = new();
     private string NewToDo { get; set; } = string.Empty;
     private string Description { get; set; } = string.Empty;
 
+    public TodoItem NewItem = new() {};
+
+    public List<TodoItem> ArrayOfTodos { get; set; } = new List<TodoItem>();
+
     private void Save()
     {
-        if (string.IsNullOrEmpty(NewToDo)) return;
+        Console.WriteLine(NewItem.Title + "qwertyuio");
 
-        Todos.Add(new Data.TodoItem
-            {
-                Title = NewToDo,
-                Description = Description
-            });
-            NewToDo = string.Empty;
-            Description = string.Empty;
+        var ItemToAdd = new TodoItem()
+        {
+            Title = NewToDo,
+            Description = Description
+        };
+
+        TodoState.Todos.Add(ItemToAdd);
+        ArrayOfTodos.Add(ItemToAdd);
+
+        NewItem.Title = string.Empty;
+        NewItem.Description = string.Empty;
+
+        NewToDo = string.Empty;
+        Description = string.Empty;
     }
 }
